@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "installCommand": "npm install --prefix \"ZBC website\"",
+  "buildCommand": "npm run build --prefix \"ZBC website\"",
+  "outputDirectory": "ZBC website/dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
