@@ -1,0 +1,55 @@
+# Root Git ignore for the whole repository
+
+# OS / Editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+desktop.ini
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
+ZBC website/node_modules/
+
+# Build output
+ZBC website/build/
+ZBC website/dist/
+ZBC website/dist-ssr/
+ZBC website/.cache/
+ZBC website/.turbo/
+
+# Environment variables
+ZBC website/.env.local
+ZBC website/.env.development.local
+ZBC website/.env.test.local
+ZBC website/.env.production.local
+
+# Misc local config
+ZBC website/*.local
+ZBC website/.eslintcache
+ZBC website/.stylelintcache
+
+# Test coverage
+ZBC website/coverage/
+ZBC website/.nyc_output/
+
+# Framework-specific (harmless if unused)
+ZBC website/.next/
+ZBC website/.nuxt/
+ZBC website/.parcel-cache/
+ZBC website/.svelte-kit/
+ZBC website/.vercel/
