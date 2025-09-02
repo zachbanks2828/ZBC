@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar.jsx'
 import './App.css'
 
@@ -33,6 +33,16 @@ function HomeTab() {
     <div className="content-grid single">
       <div className="grid-left">
         <Hero />
+        <Card title="2026 NASCAR Euro Series Campaign">
+          <div className="progress">
+            <div className="progress-bar" style={{ width: '52%' }} aria-valuenow={52} aria-valuemin={0} aria-valuemax={100} role="progressbar">
+              <span className="progress-label">52% funded</span>
+            </div>
+          </div>
+          <div className="small-link-wrap">
+            <a className="small-link" href="#funding">See how you can help →</a>
+          </div>
+        </Card>
         <Card title="Driver Profile">
           <p>
             I lead teams and ventures with the same focus and precision found on
@@ -208,8 +218,46 @@ function ContactTab() {
   )
 }
 
+function FundingTab() {
+  return (
+    <div className="about">
+      <Card title="2026 NASCAR Euro Series Campaign">
+        <p>
+          I am actively raising funds to compete in the 2026 NASCAR Euro Series. Your support helps cover testing, travel,
+          entry fees, tires, fuel, and the engineering resources needed to be competitive.
+        </p>
+        <p>
+          Explore partnership tiers, one-time contributions, and in-kind support opportunities. Every contribution directly advances
+          the program and will be acknowledged with behind‑the‑scenes access and deliverables.
+        </p>
+        <div className="actions" style={{ marginTop: '14px' }}>
+          <a className="btn" href="mailto:zach@zbc.dev?subject=2026%20NASCAR%20Euro%20Series%20Support">Email to Support</a>
+          <a className="btn secondary" href="#home">Back to Home</a>
+        </div>
+      </Card>
+    </div>
+  )
+}
+
 function App() {
-  const [tab, setTab] = useState('home')
+  const initialTab = typeof window !== 'undefined' && window.location.hash ? window.location.hash.replace('#', '') : 'home'
+  const [tab, setTab] = useState(initialTab)
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const next = window.location.hash.replace('#', '') || 'home'
+      setTab(next)
+    }
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
+  useEffect(() => {
+    const current = window.location.hash.replace('#', '')
+    if (tab !== current) {
+      window.location.hash = `#${tab}`
+    }
+  }, [tab])
 
   return (
     <div className="app">
@@ -221,6 +269,7 @@ function App() {
           {tab === 'projects' && <ProjectsTab />}
           {tab === 'about' && <AboutTab />}
           {tab === 'contact' && <ContactTab />}
+          {tab === 'funding' && <FundingTab />}
           <div className="section-title">Gallery</div>
           <section className="gallery card">
             {[1,2,3,4,5,6].map((i) => (

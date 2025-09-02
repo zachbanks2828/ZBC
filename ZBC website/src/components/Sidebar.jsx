@@ -6,6 +6,7 @@ function Sidebar({ activeTab, onChange }) {
     { key: 'projects', label: 'Projects', icon: FolderKanban },
     { key: 'about', label: 'About', icon: Info },
     { key: 'contact', label: 'Contact', icon: Mail },
+    { key: 'funding', label: 'Campaign', icon: Zap },
   ]
   return (
     <aside className="sidebar">
