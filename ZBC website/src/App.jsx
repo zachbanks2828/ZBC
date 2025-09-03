@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import studyboostImg from './assets/IMG_5670 (2).png'
+import zbcracingImg from './assets/ZBC Racing Logos.png'
 import Sidebar from './components/Sidebar.jsx'
 import './App.css'
 
@@ -144,20 +146,18 @@ function Carousel() {
   )
 }
 
-function ProjectCard({ name, meta, desc, tech, href }) {
-  return (
-    <article className="project-card">
+function ProjectCard({ name, meta, desc, tech, href, image }) {
+  const Content = (
+    <>
       <div className="project-media" aria-hidden>
-        <div className="flag" />
+        {image ? (
+          <img src={image} alt={`${name} media`} />
+        ) : (
+          <div className="flag" />
+        )}
       </div>
       <div className="project-info">
-        {href ? (
-          <h4>
-            <a href={href} target="_blank" rel="noreferrer noopener">{name}</a>
-          </h4>
-        ) : (
-          <h4>{name}</h4>
-        )}
+        <h4>{name}</h4>
         <p className="meta">{meta}</p>
         <p className="desc">{desc}</p>
         <div className="techs">
@@ -168,22 +168,45 @@ function ProjectCard({ name, meta, desc, tech, href }) {
           ))}
         </div>
       </div>
+    </>
+  )
+
+  if (href) {
+    return (
+      <a className="project-card" href={href} target="_blank" rel="noreferrer noopener">
+        {Content}
+      </a>
+    )
+  }
+
+  return (
+    <article className="project-card">
+      {Content}
     </article>
+  )
+}
+
+function StatsGrid({ stats, className }) {
+  return (
+    <div className={"stats-grid pretty" + (className ? ` ${className}` : '')}>
+      {stats.map((s) => (
+        <div key={s.label} className={"stat-card pretty" + (s.color ? ` ${s.color}` : '')}>
+          <div className="num">{s.value}</div>
+          <div className="lbl">{s.label}</div>
+        </div>
+      ))}
+    </div>
   )
 }
 
 function ProjectsTab({ filter }) {
   const all = [
-    { name: 'Pit Wall', meta: 'Telemetry Dashboard', desc: 'Live speed, RPM, and tire temp visualizations with WebSockets.', tech: ['React', 'Node', 'WebSocket'] },
-    { name: 'AeroLab', meta: '3D Car Configurator', desc: 'Interactive NASCAR livery editor using WebGL shaders.', tech: ['Three.js', 'React'] },
-    { name: 'RaceHub', meta: 'Results Aggregator', desc: 'Serverless scraping + API to unify standings across series.', tech: ['Node', 'Vercel', 'SQLite'] },
-    { name: 'PaceNote', meta: 'Strategy Planner', desc: 'What‑if tire and fuel strategy simulator with charts.', tech: ['React', 'Chart.js'] },
-    { name: 'StudyBoost', meta: 'EdTech Platform', desc: 'Explore institutions, courses, and tests. Platform powered by Azure, Spring Boot, and Java.', tech: ['Azure', 'Spring Boot', 'Java'], href: 'https://www.studyboost.com' },
-    { name: 'ZBC Racing', meta: 'YouTube Channel', desc: 'Race highlights, behind‑the‑scenes, and entrepreneurship in motorsport.', tech: ['YouTube', 'Content'], href: 'https://www.youtube.com' },
+    { name: 'StudyBoost', meta: 'EdTech Platform', desc: 'Explore institutions, courses, and tests. Platform powered by Azure, Spring Boot, and Java.', tech: ['Azure', 'Spring Boot', 'Java'], href: 'https://www.studyboost.com', image: studyboostImg },
+    { name: 'ZBC Racing', meta: 'YouTube Channel', desc: 'Race highlights, behind‑the‑scenes, and entrepreneurship in motorsport.', tech: ['YouTube', 'Content'], href: 'https://youtube.com/@zbcracing', image: zbcracingImg },
   ]
   const items = (filter ? all.filter((p) => (p.name + p.meta + p.desc + p.tech.join(' ')).toLowerCase().includes(filter.toLowerCase())) : all)
   return (
-    <div className="projects-grid" id="projects">
+    <div className="projects-grid two" id="projects">
       {items.map((p) => (
         <ProjectCard key={p.name} {...p} />
       ))}
@@ -201,6 +224,43 @@ function AboutTab() {
           students love, forging partnerships, and creating brand experiences that
           stand out—on and off the track.
         </p>
+      </Card>
+      <div className="about-stats-row">
+        <Card title="Career Statistics">
+          <StatsGrid
+            className="two"
+            stats={[
+              { label: 'Wins', value: 90, color: 'purple' },
+              { label: 'Championships', value: 7, color: 'gold' },
+            ]}
+          />
+        </Card>
+        <Card title="Sim Racing Statistics">
+          <StatsGrid
+            className="two"
+            stats={[
+              { label: 'Online Wins', value: '1000+', color: 'cyan' },
+              { label: 'Win Ratio', value: '43%', color: 'rose' },
+            ]}
+          />
+        </Card>
+        <Card title="Audience Reach">
+          <div className="stats-grid pretty one audience-stat">
+            <div className="stat-card pretty cyan compact"><div className="num">1m+</div><div className="lbl">Total Views Across Social</div></div>
+          </div>
+        </Card>
+      </div>
+      <Card title="Notable Events">
+        <ul className="timeline">
+          <li>
+            <span className="badge">2018–2021</span>
+            Streak of 39 wins in 40 races over a three‑year span
+          </li>
+          <li>
+            <span className="badge">Homestead</span>
+            Won 7 consecutive karting races at Homestead‑Miami Speedway
+          </li>
+        </ul>
       </Card>
     </div>
   )
@@ -223,8 +283,8 @@ function FundingTab() {
     <div className="about">
       <Card title="2026 NASCAR Euro Series Campaign">
         <p>
-          I am actively raising funds to compete in the 2026 NASCAR Euro Series. Your support helps cover testing, travel,
-          entry fees, tires, fuel, and the engineering resources needed to be competitive.
+          This campaign is dedicated to funding a full championship season in the 2026 NASCAR Euro Series. Your support fuels
+          testing, race entries, tires, fuel, travel, and the engineering resources required to run at the front.
         </p>
         <p>
           Explore partnership tiers, one-time contributions, and in-kind support opportunities. Every contribution directly advances
@@ -234,6 +294,46 @@ function FundingTab() {
           <a className="btn" href="mailto:zach@zbc.dev?subject=2026%20NASCAR%20Euro%20Series%20Support">Email to Support</a>
           <a className="btn secondary" href="#home">Back to Home</a>
         </div>
+      </Card>
+      <Card title="Corporate Sponsorships">
+        <div className="tiers-grid">
+          <div className="tier">
+            <div className="price">Primary • $30,000</div>
+            <h4>Lead Partner Placement</h4>
+            <ul>
+              <li>Hood primary logo and center racesuit placement</li>
+              <li>First‑priority on car livery, hauler, and team apparel</li>
+              <li>First‑position in all marketing, PR, and social content</li>
+              <li>Two VIP race weekend hospitality passes (4 marquee events)</li>
+              <li>Custom content series and product integration</li>
+              <li>Quarterly performance and brand impact reports</li>
+            </ul>
+          </div>
+          <div className="tier">
+            <div className="price">Secondary • $10,000</div>
+            <h4>High‑Visibility Supporter</h4>
+            <ul>
+              <li>Quarter‑panel and upper chest racesuit logos</li>
+              <li>Shared placement on car livery and team apparel</li>
+              <li>Inclusion in press releases and monthly social features</li>
+              <li>Two VIP hospitality passes (2 events of your choice)</li>
+              <li>Co‑branded giveaway or activation opportunity</li>
+            </ul>
+          </div>
+          <div className="tier">
+            <div className="price">Associate • $5,000</div>
+            <h4>Program Partner</h4>
+            <ul>
+              <li>Contingency logo placement on car and racesuit</li>
+              <li>Thank‑you mentions across social and post‑race recaps</li>
+              <li>One VIP hospitality pass (1 selected event)</li>
+              <li>Team meet‑and‑greet plus photo assets for internal use</li>
+            </ul>
+          </div>
+        </div>
+        <p style={{ marginTop: '10px' }}>
+          Looking for a custom package, B2B integration, or multi‑race program? Let’s tailor a plan.
+        </p>
       </Card>
     </div>
   )

@@ -1,17 +1,40 @@
-import { Zap, Home, FolderKanban, Info, Mail, Twitter, Facebook, Instagram } from 'lucide-react'
+import { Home, FolderKanban, Info, Mail, Instagram, Youtube } from 'lucide-react'
+
+function FilledBolt({ size = 28, className }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      className={className}
+      aria-hidden
+      focusable="false"
+    >
+      <path
+        d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"
+        fill="currentColor"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
 
 function Sidebar({ activeTab, onChange }) {
   const items = [
     { key: 'home', label: 'Home', icon: Home },
+    { key: 'funding', label: 'Campaign', icon: FilledBolt },
     { key: 'projects', label: 'Projects', icon: FolderKanban },
     { key: 'about', label: 'About', icon: Info },
     { key: 'contact', label: 'Contact', icon: Mail },
-    { key: 'funding', label: 'Campaign', icon: Zap },
   ]
   return (
     <aside className="sidebar">
       <div className="brand">
-        <Zap size={18} className="bolt" />
+        <FilledBolt size={28} className="bolt" />
         <span className="brand-text">ZBC</span>
       </div>
       <nav className="nav">
@@ -27,13 +50,10 @@ function Sidebar({ activeTab, onChange }) {
         ))}
       </nav>
       <div className="socials">
-        <a className="soc" href="https://x.com" target="_blank" rel="noreferrer noopener" aria-label="X">
-          <Twitter size={18} />
+        <a className="soc" href="https://youtube.com/@zbcracing" target="_blank" rel="noreferrer noopener" aria-label="YouTube">
+          <Youtube size={18} />
         </a>
-        <a className="soc" href="https://facebook.com" target="_blank" rel="noreferrer noopener" aria-label="Facebook">
-          <Facebook size={18} />
-        </a>
-        <a className="soc" href="https://instagram.com" target="_blank" rel="noreferrer noopener" aria-label="Instagram">
+        <a className="soc" href="https://instagram.com/zbcracing" target="_blank" rel="noreferrer noopener" aria-label="Instagram">
           <Instagram size={18} />
         </a>
       </div>
